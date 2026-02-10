@@ -3,6 +3,5 @@
   "buildCommand": "npx turbo run build --filter=@apps/portal",
   "installCommand": "pnpm install --no-frozen-lockfile",
   "outputDirectory": "apps/portal/.next",
-  "framework": "nextjs",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/portal"
+  "framework": "nextjs"
 }
