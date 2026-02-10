@@ -6,9 +6,8 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '@/components/navigation/Navbar';
 import { applicationService } from '@/lib/services/applicationService';
-import { useAppSelector } from '@/lib/store/hooks';
+import { useAuth } from '@/lib/contexts/AuthContext';
 import Page1 from './page1';
 import Page2 from './page2';
 import Page3 from './page3';
@@ -48,7 +47,7 @@ export default function MenteeSignupPage() {
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
   const router = useRouter();
-  const { userId, isAuthenticated } = useAppSelector((state) => state.user);
+  const { userId, isAuthenticated } = useAuth();
 
   const leftLeafPath = "/assets/images/left-leaf-portal.svg";
   const rightLeafPath = "/assets/images/right-leaf-portal.svg";
@@ -56,7 +55,6 @@ export default function MenteeSignupPage() {
   if (!isAuthenticated || !userId) {
     return (
       <>
-        <Navbar />
         <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#050a1f' }}>
           <div className="max-w-2xl mx-auto text-center">
             <Alert severity="warning" className="mb-4">
@@ -124,7 +122,6 @@ export default function MenteeSignupPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen py-20 pb-60 px-4 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
         <div className="relative">
           {/* LEFT LEAVES - way down */}

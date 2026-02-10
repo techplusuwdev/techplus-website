@@ -1,6 +1,6 @@
 import React from 'react';
-import FormRadioGroup from '../../components/form/formRadio';
-import FormSelect from '../../components/form/formDropDown';
+import FormRadioGroup from '@/components/molecules/form/formRadio';
+import FormSelect from '@/components/molecules/form/formDropDown';
 
 interface Step2Props {
   // Dropdown fields

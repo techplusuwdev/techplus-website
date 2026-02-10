@@ -1,6 +1,6 @@
 import React from 'react';
-import FormCheckboxGroup from '../../components/form/formCheckBox';
-import FormField from '../../components/form/formField';
+import FormCheckboxGroup from '@/components/molecules/form/formCheckBox';
+import FormField from '@/components/molecules/form/formField';
 
 interface Step3Props {
   // Checkboxes (array)

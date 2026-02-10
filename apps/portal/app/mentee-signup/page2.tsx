@@ -1,6 +1,6 @@
 import React from 'react';
-import FormField from '../../components/form/formField';
-import FormRadioGroup from '../../components/form/formRadio';
+import FormField from '@/components/molecules/form/formField';
+import FormRadioGroup from '@/components/molecules/form/formRadio';
 
 interface Step2Props {
   mentorshipGoals: string;

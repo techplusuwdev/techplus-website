@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
-import { useAppSelector } from '@/lib/store/hooks';
+import { useAuth } from '@/lib/contexts/AuthContext';
 
 interface NavbarTabsProps {
   currentTab: number;
@@ -28,7 +28,7 @@ export default function NavbarTabs({
   tabOrientation,
 }: NavbarTabsProps) {
   const router = useRouter();
-  const userRole = useAppSelector((state) => state.user.userRole);
+  const { userRole } = useAuth();
   const isAdmin = userRole === 'admin';
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {

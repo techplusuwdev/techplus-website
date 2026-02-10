@@ -1,8 +1,8 @@
 import React from 'react';
-import FormField from '../../components/form/formField';
-import FormCheckboxGroup from '../../components/form/formCheckBox';
-import FormRadioGroup from '../../components/form/formRadio';
-import FormSelect from '../../components/form/formDropDown';
+import FormField from '@/components/molecules/form/formField';
+import FormCheckboxGroup from '@/components/molecules/form/formCheckBox';
+import FormRadioGroup from '@/components/molecules/form/formRadio';
+import FormSelect from '@/components/molecules/form/formDropDown';
 
 // Define what props Step1 needs
 interface Step1Props {

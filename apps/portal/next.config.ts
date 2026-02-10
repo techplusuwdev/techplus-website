@@ -6,14 +6,12 @@ const nextConfig: NextConfig = {
     domains: [],
     unoptimized: false,
   },
-  // Enable TypeScript
   typescript: {
     ignoreBuildErrors: false,
   },
-  // Enable ESLint
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
+  // Empty turbopack config to enable Turbopack in Next.js 16
+  turbopack: {},
 };
 
 export default nextConfig;
+

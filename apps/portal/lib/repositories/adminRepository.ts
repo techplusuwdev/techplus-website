@@ -96,6 +96,43 @@ class AdminRepository {
 
     return data as UserSearchResult[];
   }
+
+  async getAllApplications() {
+    const [mentorApplications, menteeApplications] = await Promise.all([
+      supabase.from('mentor_applications').select('*, profiles(first_name, last_name, email)'),
+      supabase.from('mentee_applications').select('*, profiles(first_name, last_name, email)'),
+    ]);
+
+    if (mentorApplications.error) {
+      throw new Error(mentorApplications.error.message);
+    }
+
+    if (menteeApplications.error) {
+      throw new Error(menteeApplications.error.message);
+    }
+
+    return {
+      mentor: mentorApplications.data || [],
+      mentee: menteeApplications.data || [],
+    };
+  }
+
+  async updateApplicationStatus(
+    id: string,
+    type: 'mentor' | 'mentee',
+    status: 'pending' | 'approved' | 'rejected'
+  ): Promise<void> {
+    const table = type === 'mentor' ? 'mentor_applications' : 'mentee_applications';
+    
+    const { error } = await supabase
+      .from(table)
+      .update({ status })
+      .eq('id', id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
 }
 
 export const adminRepository = new AdminRepository();

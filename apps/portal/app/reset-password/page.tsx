@@ -6,7 +6,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/navigation/Navbar';
 import { authService } from '@/lib/services/authService';
 import { supabase } from '@/lib/supabase/client';
 
@@ -49,8 +48,7 @@ export default function ResetPasswordPage() {
     const result = await authService.updatePassword(password);
 
     if (result.success) {
-      alert('Password updated successfully!');
-      router.push('/login');
+      router.push('/login/password-updated');
     } else {
       setError(result.error || 'Failed to update password');
     }
@@ -60,7 +58,6 @@ export default function ResetPasswordPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#050a1f' }}>
         <div className="max-w-md mx-auto">
           <h1 className="text-4xl font-semibold text-white mb-8">Reset your password</h1>

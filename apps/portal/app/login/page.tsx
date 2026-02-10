@@ -1,14 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button, Link as MuiLink, Alert, InputAdornment, IconButton } from '@mui/material';
+import { TextField, Button, Alert, InputAdornment, IconButton } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ArrowForward from '@mui/icons-material/ArrowForward';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Navbar from '@/components/navigation/Navbar';
+import Image from 'next/image';
 import { authService } from '@/lib/services/authService';
+
+const leftLeafPath = '/assets/images/left-leaf-portal.svg';
+const rightLeafPath = '/assets/images/right-leaf-portal.svg';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -16,7 +18,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,13 +27,12 @@ export default function LoginPage() {
     const result = await authService.signIn({ email, password });
 
     if (result.success) {
-      // AuthProvider will handle updating Redux state
-      router.push('/');
-      router.refresh();
-    } else {
-      setError(result.error || 'Failed to sign in');
+      // Full reload so AuthProvider picks up the new session and home shows logged-in state
+      window.location.href = '/';
+      return;
     }
 
+    setError(result.error || 'Failed to sign in');
     setLoading(false);
   };
 
@@ -48,135 +48,144 @@ export default function LoginPage() {
     const result = await authService.resetPassword(email);
 
     if (result.success) {
-      setError('');
-      alert('Password reset email sent! Please check your inbox.');
-    } else {
-      setError(result.error || 'Failed to send reset email');
+      window.location.href = '/login/check-email';
+      return;
     }
 
+    setError(result.error || 'Failed to send reset email');
     setLoading(false);
   };
 
   return (
     <>
-      <Navbar />
-      <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#050a1f' }}>
-        <div className="max-w-md mx-auto">
-          <h1 className="text-4xl font-semibold text-white mb-8">Sign in</h1>
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <Alert severity="error" className="bg-red-900 text-white">
-                {error}
-              </Alert>
-            )}
+      <div
+        className="min-h-screen py-20 pb-60 px-4 overflow-hidden"
+        style={{
+          background: 'linear-gradient(168.48deg, #FFFFFF 32.06%, rgba(255, 238, 194, 0.4) 77.51%)',
+        }}
+      >
+        <div className="relative">
+          <div className="hidden md:block absolute top-[30vh] left-0">
+            <Image
+              src={leftLeafPath}
+              alt=""
+              width={456}
+              height={554}
+              className="h-[60vh] w-auto opacity-30 pointer-events-none"
+              unoptimized
+            />
+          </div>
+          <div className="hidden md:block absolute top-0 right-0 -mt-[15vh]">
+            <Image
+              src={rightLeafPath}
+              alt=""
+              width={451}
+              height={615}
+              className="h-[60vh] w-auto opacity-30 pointer-events-none"
+              unoptimized
+            />
+          </div>
 
-            <div>
-              <label className="block text-white mb-2">Email</label>
-              <TextField
+          <div className="max-w-md mx-auto relative z-10 pt-8">
+            <h1 className="text-4xl font-semibold text-[#050a1f] mb-2">Sign in</h1>
+            <p className="text-[#0A1628] text-sm mb-8">Sign in to your Tech+ account</p>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <Alert severity="error" sx={{ bgcolor: 'rgba(185, 28, 28, 0.15)', color: '#0A1628' }}>
+                  {error}
+                </Alert>
+              )}
+
+              <div>
+                <label className="block text-[#0A1628] font-medium mb-2">Email</label>
+                <TextField
+                  fullWidth
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  size="medium"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: '#fff',
+                      borderRadius: '8px',
+                      '& fieldset': { borderColor: 'rgba(10, 22, 40, 0.2)' },
+                      '&:hover fieldset': { borderColor: '#76a36d' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d', borderWidth: '2px' },
+                    },
+                  }}
+                />
+              </div>
+
+              <div>
+                <label className="block text-[#0A1628] font-medium mb-2">Password</label>
+                <TextField
+                  fullWidth
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  size="medium"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                          sx={{ color: '#0A1628' }}
+                          size="small"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      backgroundColor: '#fff',
+                      borderRadius: '8px',
+                      '& fieldset': { borderColor: 'rgba(10, 22, 40, 0.2)' },
+                      '&:hover fieldset': { borderColor: '#76a36d' },
+                      '&.Mui-focused fieldset': { borderColor: '#76a36d', borderWidth: '2px' },
+                    },
+                  }}
+                />
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  className="text-[#76a36d] hover:underline text-sm font-medium"
+                >
+                  Forgot password?
+                </button>
+              </div>
+
+              <Button
+                type="submit"
+                variant="contained"
                 fullWidth
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-gray-800 rounded"
+                disabled={loading}
+                className="normal-case py-3 text-base font-medium"
+                endIcon={<ArrowForward />}
                 sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': {
-                      borderColor: 'rgba(255, 255, 255, 0.3)',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: 'rgba(255, 255, 255, 0.5)',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#76a36d',
-                    },
-                  },
-                  '& .MuiInputBase-input::placeholder': {
-                    color: 'rgba(255, 255, 255, 0.5)',
-                  },
+                  backgroundColor: '#76a36d',
+                  borderRadius: '8px',
+                  '&:hover': { backgroundColor: '#5d8a55' },
                 }}
-              />
-            </div>
-
-            <div>
-              <label className="block text-white mb-2">Password</label>
-              <TextField
-                fullWidth
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="bg-gray-800 rounded"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                        sx={{ color: 'white' }}
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    color: 'white',
-                    '& fieldset': {
-                      borderColor: 'rgba(255, 255, 255, 0.3)',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: 'rgba(255, 255, 255, 0.5)',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#76a36d',
-                    },
-                  },
-                  '& .MuiInputBase-input::placeholder': {
-                    color: 'rgba(255, 255, 255, 0.5)',
-                  },
-                }}
-              />
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={handleForgotPassword}
-                className="text-[#76a36d] hover:text-[#76a36d] hover:underline text-sm"
               >
-                Forgot password?
-              </button>
-            </div>
+                {loading ? 'Signing in...' : 'Sign in'}
+              </Button>
+            </form>
 
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              disabled={loading}
-              className="bg-gray-700 hover:bg-gray-600 text-white normal-case py-3"
-              endIcon={<ArrowForward />}
-              sx={{
-                backgroundColor: '#374151',
-                '&:hover': {
-                  backgroundColor: '#4B5563',
-                },
-              }}
-            >
-              {loading ? 'Signing in...' : 'Sign in'}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-white">
-              Don't have an account?{' '}
-              <Link href="/signup" className="text-[#76a36d] hover:underline">
-                Sign up here
+            <p className="mt-6 text-center text-[#0A1628]">
+              Don&apos;t have an account?{' '}
+              <Link href="/signup" className="text-[#76a36d] font-medium hover:underline">
+                Sign up
               </Link>
             </p>
           </div>

@@ -1,12 +1,12 @@
-'use client';
-
 import React from 'react';
-import { Provider } from 'react-redux';
-import { store } from '@/lib/store/store';
-import FeatureFlagProvider from '@/components/providers/FeatureFlagProvider';
-import AuthProvider from '@/components/providers/AuthProvider';
-import Footer from '@/components/navigation/Footer';
+import PageLayout from '@/components/templates/layout/PageLayout';
+import Footer from '@/components/organisms/navigation/Footer';
 import './globals.css';
+
+export const metadata = {
+  title: 'Tech+ UW',
+  description: 'Tech+ University of Waterloo Portal',
+};
 
 export default function RootLayout({
   children,
@@ -16,16 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
-        <Provider store={store}>
-          <AuthProvider>
-            <FeatureFlagProvider>
-              <div className="flex-1">
-                {children}
-              </div>
-              <Footer />
-            </FeatureFlagProvider>
-          </AuthProvider>
-        </Provider>
+        <PageLayout>
+          <div className="flex-1">
+            {children}
+          </div>
+        </PageLayout>
+        <Footer />
       </body>
     </html>
   );

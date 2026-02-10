@@ -1,123 +1,62 @@
 import React from 'react';
-import FormRadioGroup from '../../components/form/formRadio';
-import FormSelect from '../../components/form/formDropDown';
+import FormCheckboxGroup from '@/components/molecules/form/formCheckBox';
+import FormField from '@/components/molecules/form/formField';
 
-interface Step2Props {
-  // Dropdown fields
-  raceEthnicOrigin: string;
-  setRaceEthnicOrigin: (value: string) => void;
-  gender: string;
-  setGender: (value: string) => void;
-  sexualOrientation: string;
-  setSexualOrientation: (value: string) => void;
-  
-  // Radio button
-  isIndigenous: string;
-  setIsIndigenous: (value: string) => void;
-  
-  // Navigation
+interface Step3Props {
+  contactMethods: string[];
+  setContactMethods: (value: string[]) => void;
+  askMeAbout: string;
+  setAskMeAbout: (value: string) => void;
+  freetimeInterests: string;
+  setFreetimeInterests: (value: string) => void;
   onNext: () => void;
   onBack: () => void;
 }
 
-export default function Page2({
-  raceEthnicOrigin,
-  setRaceEthnicOrigin,
-  gender,
-  setGender,
-  sexualOrientation,
-  setSexualOrientation,
-  isIndigenous,
-  setIsIndigenous,
+export default function Page3({
+  contactMethods,
+  setContactMethods,
+  askMeAbout,
+  setAskMeAbout,
+  freetimeInterests,
+  setFreetimeInterests,
   onNext,
   onBack,
-}: Step2Props) {
+}: Step3Props) {
   return (
     <div className="max-w-md mx-auto">
-      <h1 className="text-3xl text-black font-bold text-center mb-4">
-        This section is OPTIONAL.
+      <h1 className="text-5xl text-[#6B8E6B] font-medium text-center mb-8">
+        Profile Information
       </h1>
-      
-      <p className="text-[#0A1628] text-center mb-8">
-        We're collecting this in the case that some mentees may be looking for mentors 
-        who they identify with. This information will also be valuable data for diversity and 
-        inclusion initiatives that are launching at Tech+ this term.
-        <br /><br />
-        This will NOT be shared outside of the organizing team who handles the mentor/
-        mentee pairing.
-      </p>
 
-      {/* Race/Ethnic Origin Dropdown */}
-      <FormSelect
-        label="What is your race/ethnic origin?"
-        options={[
-          "Asian",
-          "Black",
-          "Hispanic/Latino",
-          "Indigenous",
-          "Middle Eastern",
-          "White",
-          "Mixed/Multiple",
-          "Prefer not to say",
-          "Other"
-        ]}
-        value={raceEthnicOrigin}
-        onChange={setRaceEthnicOrigin}
-        placeholder="Select..."
+      <FormCheckboxGroup
+        label="How do you want to be contacted?"
+        options={["LinkedIn", "Email", "Discord", "Instagram", "Other"]}
+        value={contactMethods}
+        onChange={setContactMethods}
         required={true}
       />
 
-      {/* Gender Dropdown */}
-      <FormSelect
-        label="What is your gender?"
-        options={[
-          "Man",
-          "Woman",
-          "Non-binary",
-          "Genderqueer",
-          "Genderfluid",
-          "Agender",
-          "Two-Spirit",
-          "Prefer not to say",
-          "Other"
-        ]}
-        value={gender}
-        onChange={setGender}
-        placeholder="Select..."
+      <FormField
+        label="You can ask me about..."
+        placeholder="e.g., internship experiences, course selection, work-life balance"
+        value={askMeAbout}
+        onChange={setAskMeAbout}
+        multiline={true}
+        rows={4}
         required={true}
       />
 
-      {/* Sexual Orientation Dropdown */}
-      <FormSelect
-        label="What is your sexual orientation?"
-        options={[
-          "Heterosexual/Straight",
-          "Gay",
-          "Lesbian",
-          "Bisexual",
-          "Pansexual",
-          "Asexual",
-          "Queer",
-          "Questioning",
-          "Prefer not to say",
-          "Other"
-        ]}
-        value={sexualOrientation}
-        onChange={setSexualOrientation}
-        placeholder="Select..."
+      <FormField
+        label="In my freetime I enjoy..."
+        placeholder="e.g., hiking, playing guitar, cooking, gaming"
+        value={freetimeInterests}
+        onChange={setFreetimeInterests}
+        multiline={true}
+        rows={4}
         required={true}
       />
 
-      {/* Indigenous Radio Button */}
-      <FormRadioGroup
-        label="Do you identify as an Indigenous person?"
-        options={["Yes", "No"]}
-        value={isIndigenous}
-        onChange={setIsIndigenous}
-        required={true}
-      />
-
-      {/* Navigation Buttons */}
       <div className="flex justify-between mt-8">
         <button
           type="button"

@@ -3,16 +3,14 @@
 import React, { useState } from 'react';
 import { Avatar, Menu, MenuItem, IconButton } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useAppSelector, useAppDispatch } from '@/lib/store/hooks';
-import { clearUser } from '@/lib/store/slices/userSlice';
+import { useAuth } from '@/lib/contexts/AuthContext';
 import { authService } from '@/lib/services/authService';
 
 export default function ProfileButton() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { firstName, lastName } = useAppSelector((state) => state.user);
+  const { firstName, lastName, refreshAuth } = useAuth();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -31,7 +29,7 @@ export default function ProfileButton() {
     handleClose();
     const result = await authService.signOut();
     if (result.success) {
-      dispatch(clearUser());
+      await refreshAuth();
       router.push('/');
       router.refresh();
     }
@@ -72,40 +70,24 @@ export default function ProfileButton() {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        onClick={handleClose}
+        disableScrollLock
         PaperProps={{
-          elevation: 0,
+          elevation: 8,
           sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
+            minWidth: 140,
+            maxWidth: 200,
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           },
         }}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleProfile} sx={{ color: '#020B2C' }}>
+        <MenuItem onClick={handleProfile} sx={{ color: '#020B2C', fontSize: '0.875rem' }}>
           Profile
         </MenuItem>
-        <MenuItem onClick={handleLogout} sx={{ color: '#020B2C' }}>
+        <MenuItem onClick={handleLogout} sx={{ color: '#020B2C', fontSize: '0.875rem' }}>
           Logout
         </MenuItem>
       </Menu>

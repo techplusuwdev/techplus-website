@@ -2,14 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { CircularProgress, Alert } from '@mui/material';
-import { useAppSelector } from '@/lib/store/hooks';
+import { useAuth } from '@/lib/contexts/AuthContext';
 import { authRepository } from '@/lib/repositories/authRepository';
 import type { ProfileData } from '@/lib/repositories/authRepository';
 
 export default function Profile() {
-  const { userId, email, firstName, lastName, isAuthenticated } = useAppSelector(
-    (state) => state.user
-  );
+  const { userId, email, firstName, lastName, isAuthenticated } = useAuth();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -64,6 +62,7 @@ export default function Profile() {
     first_name: firstName || '',
     last_name: lastName || '',
     role: 'default' as const,
+    created_at: undefined,
   };
 
   return (

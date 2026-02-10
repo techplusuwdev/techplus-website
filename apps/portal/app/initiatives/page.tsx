@@ -1,13 +1,11 @@
 'use client';
 
 import React from 'react';
-import Navbar from '@/components/navigation/Navbar';
-import Initiatives from '@/components/landingPage/initiatives/Initiatives';
+import Initiatives from '@/components/organisms/landingPage/initiatives/Initiatives';
 
 export default function InitiativesPage() {
   return (
     <>
-      <Navbar />
       <Initiatives />
     </>
   );

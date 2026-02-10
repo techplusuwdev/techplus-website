@@ -7,7 +7,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Navbar from '@/components/navigation/Navbar';
 import { authService } from '@/lib/services/authService';
 
 export default function SignUpPage() {
@@ -46,9 +45,7 @@ export default function SignUpPage() {
     });
 
     if (result.success) {
-      // If user is automatically signed in, AuthProvider will handle state
-      alert('Account created! Please check your email to confirm your account.');
-      router.push('/login');
+      router.push('/signup/success');
     } else {
       setError(result.error || 'Failed to create account');
     }
@@ -58,7 +55,6 @@ export default function SignUpPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#050a1f' }}>
         <div className="max-w-md mx-auto">
           <h1 className="text-4xl font-semibold text-white mb-8">Create your account</h1>

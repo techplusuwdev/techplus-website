@@ -49,6 +49,34 @@ class AdminService {
       };
     }
   }
+
+  async getAllApplications() {
+    try {
+      const result = await adminRepository.getAllApplications();
+      return { success: true, data: result };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'An error occurred',
+      };
+    }
+  }
+
+  async updateApplicationStatus(
+    id: string,
+    type: 'mentor' | 'mentee',
+    status: 'pending' | 'approved' | 'rejected'
+  ) {
+    try {
+      await adminRepository.updateApplicationStatus(id, type, status);
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'An error occurred',
+      };
+    }
+  }
 }
 
 export const adminService = new AdminService();

@@ -12,7 +12,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import NavbarTabs from './NavbarTabs';
 import ProfileButton from './ProfileButton';
-import { useAppSelector } from '@/lib/store/hooks';
+import { useAuth } from '@/lib/contexts/AuthContext';
 import Logo from './logo.png';
 
 function navWidth(hasUser: boolean): number {
@@ -25,7 +25,7 @@ export default function Navbar() {
   const [width, setWidth] = useState(0);
   const pathname = usePathname();
   const router = useRouter();
-  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+  const { isAuthenticated, userRole } = useAuth();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -39,7 +39,6 @@ export default function Navbar() {
     }
   }, []);
 
-  const userRole = useAppSelector((state) => state.user.userRole);
   const isAdmin = userRole === 'admin';
 
   useEffect(() => {

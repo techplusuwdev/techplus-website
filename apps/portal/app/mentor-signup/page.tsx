@@ -6,13 +6,12 @@ import ArrowForward from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '@/components/navigation/Navbar';
 import { applicationService } from '@/lib/services/applicationService';
-import { useAppSelector } from '@/lib/store/hooks';
-import FormField from '../../components/form/formField';
-import FormCheckboxGroup from '../../components/form/formCheckBox';
-import FormRadioGroup from '../../components/form/formRadio';
-import FormSelect from '../../components/form/formDropDown';
+import { useAuth } from '@/lib/contexts/AuthContext';
+import FormField from '@/components/molecules/form/formField';
+import FormCheckboxGroup from '@/components/molecules/form/formCheckBox';
+import FormRadioGroup from '@/components/molecules/form/formRadio';
+import FormSelect from '@/components/molecules/form/formDropDown';
 import Page1 from './page1';  // ← Import Step1
 import Page2 from './page2';
 import Page3 from './page3';
@@ -56,7 +55,7 @@ export default function MentorSignupPage() {
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
   const router = useRouter();
-  const { userId, isAuthenticated } = useAppSelector((state) => state.user);
+  const { userId, isAuthenticated } = useAuth();
 
   const leftLeafPath = "/assets/images/left-leaf-portal.svg";
   const rightLeafPath = "/assets/images/right-leaf-portal.svg";
@@ -64,7 +63,6 @@ export default function MentorSignupPage() {
   if (!isAuthenticated || !userId) {
     return (
       <>
-        <Navbar />
         <div className="min-h-screen py-16 px-4" style={{ backgroundColor: '#050a1f' }}>
           <div className="max-w-2xl mx-auto text-center">
             <Alert severity="warning" className="mb-4">
@@ -135,7 +133,6 @@ export default function MentorSignupPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen py-20 pb-60 px-4 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
 
         <div className="relative">

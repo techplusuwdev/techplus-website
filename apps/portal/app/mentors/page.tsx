@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import MentorDisplay from '@/components/portal/MentorDisplay/MentorDisplay';
+import MentorDisplay from '@/components/organisms/portal/MentorDisplay/MentorDisplay';
 
 export const dynamic = 'force-dynamic';
 

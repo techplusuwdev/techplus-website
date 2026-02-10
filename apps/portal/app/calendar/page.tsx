@@ -1,13 +1,8 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import Navbar from '@/components/navigation/Navbar';
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
-// Dummy event data
 const dummyEvents = [
   {
     id: '1',
@@ -40,57 +35,73 @@ const dummyEvents = [
 ];
 
 export default function CalendarPage() {
-  const calendarRef = useRef<FullCalendar>(null);
+  const [CalendarComponent, setCalendarComponent] = useState<any>(null);
+  const leftLeafPath = "/assets/images/left-leaf-portal.svg";
+  const rightLeafPath = "/assets/images/right-leaf-portal.svg";
 
   useEffect(() => {
-    // Load FullCalendar CSS dynamically
-    const link1 = document.createElement('link');
-    link1.rel = 'stylesheet';
-    link1.href = 'https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/main.min.css';
-    document.head.appendChild(link1);
-
-    const link2 = document.createElement('link');
-    link2.rel = 'stylesheet';
-    link2.href = 'https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/main.min.css';
-    document.head.appendChild(link2);
-
-    const link3 = document.createElement('link');
-    link3.rel = 'stylesheet';
-    link3.href = 'https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.15/main.min.css';
-    document.head.appendChild(link3);
-
-    return () => {
-      document.head.removeChild(link1);
-      document.head.removeChild(link2);
-      document.head.removeChild(link3);
-    };
+    // Load calendar component dynamically
+    import('@/components/organisms/calendar/CalendarClient').then((mod) => {
+      setCalendarComponent(() => mod.default);
+    });
   }, []);
 
   return (
-    <>
-      <Navbar />
-      <div className="py-10 px-5" style={{ backgroundColor: '#050a1f', minHeight: '100vh' }}>
-        <div className="max-w-7xl mx-auto">
-          <h1 className="mb-8 text-4xl font-semibold text-white text-center">Events Calendar</h1>
-          <div className="bg-white rounded-lg p-4">
-            <FullCalendar
-              ref={calendarRef}
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              initialView="dayGridMonth"
-              events={dummyEvents}
-              headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay',
-              }}
-              height="auto"
-              eventClick={(info) => {
-                alert(`Event: ${info.event.title}\nStart: ${info.event.start?.toLocaleString()}`);
-              }}
-            />
+    <div className="min-h-screen py-20 pb-60 px-4 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
+      <div className="relative">
+        {/* LEFT LEAVES */}
+        <div className="hidden md:block absolute top-[30vh] left-0">
+          <Image
+            src={leftLeafPath}
+            alt="decorative leaf"
+            width={456}
+            height={554}
+            className="h-[60vh] w-auto opacity-30 pointer-events-none"
+            unoptimized
+          />
+          <Image
+            src={leftLeafPath}
+            alt="decorative leaf"
+            width={456}
+            height={554}
+            className="h-[60vh] w-auto mt-[30vh] opacity-30 pointer-events-none"
+            unoptimized
+          />
+        </div>
+
+        {/* RIGHT LEAVES */}
+        <div className="hidden md:block absolute top-0 right-0 -mt-[15vh]">
+          <Image
+            src={rightLeafPath}
+            alt="decorative leaf"
+            width={451}
+            height={615}
+            className="h-[60vh] w-auto opacity-30 pointer-events-none"
+            unoptimized
+          />
+          <Image
+            src={rightLeafPath}
+            alt="decorative leaf"
+            width={451}
+            height={615}
+            className="h-[60vh] w-auto mt-[40vh] opacity-30 pointer-events-none"
+            unoptimized
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <h1 className="mb-8 text-4xl font-semibold text-[#6B8E6B] text-center">Events Calendar</h1>
+          <div className="bg-white rounded-lg shadow-lg p-4">
+            {CalendarComponent ? (
+              <CalendarComponent events={dummyEvents} />
+            ) : (
+              <div className="min-h-[400px] flex items-center justify-center text-gray-500">
+                Loading calendar...
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

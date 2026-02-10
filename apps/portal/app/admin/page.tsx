@@ -3,9 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Alert, Select, MenuItem, FormControl, InputLabel, Card, CardContent, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/navigation/Navbar';
 import { adminService } from '@/lib/services/adminService';
-import { useAppSelector } from '@/lib/store/hooks';
+import { useAuth } from '@/lib/contexts/AuthContext';
 import type { UserRole } from '@/lib/repositories/authRepository';
 import type { UserSearchResult } from '@/lib/repositories/adminRepository';
 
@@ -25,7 +24,7 @@ export default function AdminPage() {
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { userRole, isAuthenticated } = useAppSelector((state) => state.user);
+  const { userRole, isAuthenticated } = useAuth();
 
   useEffect(() => {
     console.log('Admin page - isAuthenticated:', isAuthenticated, 'userRole:', userRole);
@@ -119,7 +118,6 @@ export default function AdminPage() {
   if (!isAuthenticated || userRole !== 'admin') {
     return (
       <>
-        <Navbar />
         <div className="py-10 px-5" style={{ backgroundColor: '#050a1f', minHeight: '100vh' }}>
           <div className="max-w-6xl mx-auto">
             <Card className="bg-red-900 p-6">
@@ -147,7 +145,6 @@ export default function AdminPage() {
 
   return (
     <>
-      <Navbar />
       <div className="py-10 px-5" style={{ backgroundColor: '#020B2C', minHeight: '100vh' }}>
         <div className="max-w-6xl mx-auto">
           <h1 className="mb-8 text-4xl font-semibold text-white text-center">Admin Dashboard</h1>
