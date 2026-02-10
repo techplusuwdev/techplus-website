@@ -3,10 +3,19 @@
 -- During signup, auth.uid() is not yet set, so the trigger's insert is denied.
 -- This policy allows the trigger (running as postgres or supabase_auth_admin) to insert.
 
-CREATE POLICY "Allow trigger to create profile on signup"
-  ON profiles FOR INSERT
-  WITH CHECK (
-    auth.uid() = id
-    OR current_user = 'postgres'
-    OR current_user = 'supabase_auth_admin'
-  );
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'profiles' 
+    AND policyname = 'Allow trigger to create profile on signup'
+  ) THEN
+    CREATE POLICY "Allow trigger to create profile on signup"
+      ON profiles FOR INSERT
+      WITH CHECK (
+        auth.uid() = id
+        OR current_user = 'postgres'
+        OR current_user = 'supabase_auth_admin'
+      );
+  END IF;
+END $$;

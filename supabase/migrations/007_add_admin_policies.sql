@@ -15,18 +15,36 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Allow admins to view all profiles
-CREATE POLICY "Admins can view all profiles"
-  ON profiles FOR SELECT
-  USING (
-    is_admin() OR auth.uid() = id
-  );
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'profiles' 
+    AND policyname = 'Admins can view all profiles'
+  ) THEN
+    CREATE POLICY "Admins can view all profiles"
+      ON profiles FOR SELECT
+      USING (
+        is_admin() OR auth.uid() = id
+      );
+  END IF;
+END $$;
 
 -- Allow admins to update any profile
-CREATE POLICY "Admins can update any profile"
-  ON profiles FOR UPDATE
-  USING (
-    is_admin() OR auth.uid() = id
-  )
-  WITH CHECK (
-    is_admin() OR auth.uid() = id
-  );
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'profiles' 
+    AND policyname = 'Admins can update any profile'
+  ) THEN
+    CREATE POLICY "Admins can update any profile"
+      ON profiles FOR UPDATE
+      USING (
+        is_admin() OR auth.uid() = id
+      )
+      WITH CHECK (
+        is_admin() OR auth.uid() = id
+      );
+  END IF;
+END $$;
