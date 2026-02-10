@@ -1,0 +1,15 @@
+# Code owners for automatic review requests
+
+# Root configuration files
+/*.json @techplus-admin
+/*.yml @techplus-admin
+/*.yaml @techplus-admin
+
+# Portal app
+/apps/portal/ @techplus-admin
+
+# Supabase migrations
+/supabase/migrations/ @techplus-admin
+
+# CI/CD
+/.github/ @techplus-admin

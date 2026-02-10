@@ -1,4 +1,4 @@
-import { eventRepository, EventData } from '../repositories/eventRepository';
+import { eventRepository } from '../repositories/eventRepository';
 
 class EventService {
   async getAllEvents() {
