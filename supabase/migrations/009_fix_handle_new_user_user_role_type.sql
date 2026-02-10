@@ -1,5 +1,5 @@
--- Create a function to handle profile creation on user signup.
--- SECURITY DEFINER so it runs with owner privileges; migration 008 allows that role to insert.
+-- Fix: trigger runs in auth transaction context where "user_role" can resolve
+-- to auth.user_role (missing). Use public.user_role so the type is found.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER
 LANGUAGE plpgsql
@@ -18,9 +18,3 @@ BEGIN
   RETURN NEW;
 END;
 $$;
-
--- Create trigger to automatically create profile when user signs up
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-CREATE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
