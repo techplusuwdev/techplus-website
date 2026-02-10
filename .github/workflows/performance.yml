@@ -1,0 +1,94 @@
+name: Performance Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-performance:
+    name: Build Performance Analysis
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          echo "⏱️  Installing dependencies..."
+          START_TIME=$(date +%s)
+          pnpm install --no-frozen-lockfile
+          END_TIME=$(date +%s)
+          INSTALL_DURATION=$((END_TIME - START_TIME))
+          echo "✅ Dependencies installed in ${INSTALL_DURATION}s"
+
+      - name: Clean build
+        run: |
+          echo "🧹 Cleaning previous builds..."
+          rm -rf apps/portal/.next
+          rm -rf apps/portal/.turbo
+
+      - name: Cold build (no cache)
+        run: |
+          echo "⏱️  Running cold build (no cache)..."
+          START_TIME=$(date +%s)
+          pnpm build:web
+          END_TIME=$(date +%s)
+          COLD_BUILD_DURATION=$((END_TIME - START_TIME))
+          echo "❄️  Cold build completed in ${COLD_BUILD_DURATION}s"
+          echo "COLD_BUILD_TIME=${COLD_BUILD_DURATION}" >> $GITHUB_ENV
+
+      - name: Warm build (with cache)
+        run: |
+          echo "⏱️  Running warm build (with cache)..."
+          START_TIME=$(date +%s)
+          pnpm build:web
+          END_TIME=$(date +%s)
+          WARM_BUILD_DURATION=$((END_TIME - START_TIME))
+          echo "🔥 Warm build completed in ${WARM_BUILD_DURATION}s"
+          echo "WARM_BUILD_TIME=${WARM_BUILD_DURATION}" >> $GITHUB_ENV
+
+      - name: Build size analysis
+        run: |
+          echo "📦 Analyzing build output size..."
+          if [ -d "apps/portal/.next" ]; then
+            NEXT_SIZE=$(du -sh apps/portal/.next | cut -f1)
+            STATIC_SIZE=$(du -sh apps/portal/.next/static 2>/dev/null | cut -f1 || echo "N/A")
+            echo "Total .next size: $NEXT_SIZE"
+            echo "Static assets size: $STATIC_SIZE"
+            
+            # Count files
+            TOTAL_FILES=$(find apps/portal/.next -type f | wc -l)
+            echo "Total files: $TOTAL_FILES"
+          fi
+
+      - name: Performance summary
+        run: |
+          echo "⚡ Performance Summary"
+          echo "===================="
+          echo "Cold build time: ${COLD_BUILD_TIME}s"
+          echo "Warm build time: ${WARM_BUILD_TIME}s"
+          SPEEDUP=$((COLD_BUILD_TIME - WARM_BUILD_TIME))
+          echo "Cache speedup: ${SPEEDUP}s"
+          
+          if [ $WARM_BUILD_TIME -lt 10 ]; then
+            echo "🎉 Excellent! Build time under 10s"
+          elif [ $WARM_BUILD_TIME -lt 30 ]; then
+            echo "✅ Good! Build time under 30s"
+          else
+            echo "⚠️  Build time over 30s, consider optimization"
+          fi

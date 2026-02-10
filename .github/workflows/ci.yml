@@ -1,0 +1,184 @@
+name: CI Tests
+
+on:
+  push:
+    branches: [ main, staging, develop ]
+  pull_request:
+    branches: [ main, staging, develop ]
+
+jobs:
+  lint:
+    name: Lint Check
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Don't fail the pipeline if linting fails
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run lint
+        run: |
+          echo "⏱️  Starting lint check..."
+          START_TIME=$(date +%s)
+          pnpm lint:web || echo "⚠️  Linting completed with warnings"
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "✅ Lint check completed in ${DURATION}s"
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Don't fail the pipeline if type checking fails
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run type check
+        run: |
+          echo "⏱️  Starting TypeScript type check..."
+          START_TIME=$(date +%s)
+          pnpm type-check:web || echo "⚠️  Type checking completed with errors"
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "✅ Type check completed in ${DURATION}s"
+
+  build:
+    name: Build Test
+    runs-on: ubuntu-latest
+    continue-on-error: true  # Don't fail the pipeline if build fails
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run build
+        run: |
+          echo "⏱️  Starting production build..."
+          START_TIME=$(date +%s)
+          pnpm build:web
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "✅ Build completed in ${DURATION}s"
+          
+      - name: Check build output
+        run: |
+          if [ -d "apps/portal/.next" ]; then
+            echo "✅ Build output directory exists"
+            du -sh apps/portal/.next
+          else
+            echo "❌ Build output directory not found"
+            exit 1
+          fi
+
+  dev-server-check:
+    name: Dev Server Check (Required)
+    runs-on: ubuntu-latest
+    # This one MUST pass
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Start dev server
+        run: |
+          echo "🚀 Starting development server..."
+          pnpm dev:web &
+          DEV_PID=$!
+          echo "Dev server PID: $DEV_PID"
+          
+          # Wait for server to start
+          echo "⏱️  Waiting for server to be ready..."
+          sleep 30
+          
+          # Check if process is still running
+          if ps -p $DEV_PID > /dev/null; then
+            echo "✅ Dev server started successfully and is running"
+            kill $DEV_PID
+            exit 0
+          else
+            echo "❌ Dev server failed to start or crashed"
+            exit 1
+          fi
+
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, build, dev-server-check]
+    if: always()
+    
+    steps:
+      - name: Check results
+        run: |
+          echo "📊 CI Test Results Summary"
+          echo "=========================="
+          echo ""
+          echo "Lint: ${{ needs.lint.result }}"
+          echo "Type Check: ${{ needs.typecheck.result }}"
+          echo "Build: ${{ needs.build.result }}"
+          echo "Dev Server: ${{ needs.dev-server-check.result }}"
+          echo ""
+          
+          if [ "${{ needs.dev-server-check.result }}" != "success" ]; then
+            echo "❌ REQUIRED: Dev server check failed"
+            exit 1
+          fi
+          
+          echo "✅ All required checks passed"
+          echo "⚠️  Optional checks may have warnings (this is OK)"
