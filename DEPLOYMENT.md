@@ -8,7 +8,7 @@ The project is configured for Vercel deployment with the following settings:
 
 ```json
 {
-  "buildCommand": "pnpm build:web",
+  "buildCommand": "npx turbo run build --filter=@apps/portal",
   "installCommand": "pnpm install --no-frozen-lockfile",
   "outputDirectory": "apps/portal/.next"
 }
@@ -16,9 +16,9 @@ The project is configured for Vercel deployment with the following settings:
 
 ### Key Settings
 
-1. **Build Command**: `pnpm build:web`
-   - This runs the Turborepo build for the portal app
-   - Defined in root `package.json` as: `turbo run build --filter=@apps/portal`
+1. **Build Command**: `npx turbo run build --filter=@apps/portal`
+   - This runs the Turborepo build for the portal app directly
+   - Uses `npx` to ensure turbo is available in Vercel environment
 
 2. **Install Command**: `pnpm install --no-frozen-lockfile`
    - Required because we're in a monorepo and lockfile may differ
@@ -38,7 +38,7 @@ In your Vercel project dashboard, ensure these settings:
 ### General Settings
 - **Framework Preset**: Next.js
 - **Root Directory**: `.` (leave empty or set to root)
-- **Build Command**: `pnpm build:web` (or leave empty to use vercel.json)
+- **Build Command**: `npx turbo run build --filter=@apps/portal` (or leave empty to use vercel.json)
 - **Output Directory**: `apps/portal/.next` (or leave empty to use vercel.json)
 - **Install Command**: `pnpm install --no-frozen-lockfile` (or leave empty to use vercel.json)
 
@@ -87,6 +87,15 @@ This tells Turborepo to cache the `.next` directory (excluding cache folder) for
 - Use `pnpm install --no-frozen-lockfile` in vercel.json
 - Or commit updated `pnpm-lock.yaml` to git
 
+### Error: Command "build:web" not found
+
+**Problem**: `ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "build:web" not found`
+
+**Solution**:
+- Use `npx turbo run build --filter=@apps/portal` instead of `pnpm build:web`
+- The workspace scripts in root `package.json` aren't available in Vercel's build context
+- Using `npx turbo` directly ensures the command works in any environment
+
 ### Build fails with Turbopack error
 
 **Problem**: Next.js 16 Turbopack errors
@@ -115,7 +124,7 @@ Vercel automatically deploys:
 
 Each deployment runs:
 1. `pnpm install --no-frozen-lockfile`
-2. `pnpm build:web` (runs Turbo build for portal)
+2. `npx turbo run build --filter=@apps/portal` (runs Turbo build for portal)
 3. Next.js build in `apps/portal`
 4. Deploy `.next` directory
 
