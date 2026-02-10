@@ -21,19 +21,46 @@ CREATE TABLE IF NOT EXISTS mentee_applications (
 ALTER TABLE mentee_applications ENABLE ROW LEVEL SECURITY;
 
 -- Users can view their own application
-CREATE POLICY "Users can view own mentee application"
-  ON mentee_applications FOR SELECT
-  USING (auth.uid() = user_id);
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'mentee_applications' 
+    AND policyname = 'Users can view own mentee application'
+  ) THEN
+    CREATE POLICY "Users can view own mentee application"
+      ON mentee_applications FOR SELECT
+      USING (auth.uid() = user_id);
+  END IF;
+END $$;
 
 -- Users can insert their own application
-CREATE POLICY "Users can insert own mentee application"
-  ON mentee_applications FOR INSERT
-  WITH CHECK (auth.uid() = user_id);
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'mentee_applications' 
+    AND policyname = 'Users can insert own mentee application'
+  ) THEN
+    CREATE POLICY "Users can insert own mentee application"
+      ON mentee_applications FOR INSERT
+      WITH CHECK (auth.uid() = user_id);
+  END IF;
+END $$;
 
 -- Users can update their own application
-CREATE POLICY "Users can update own mentee application"
-  ON mentee_applications FOR UPDATE
-  USING (auth.uid() = user_id);
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'mentee_applications' 
+    AND policyname = 'Users can update own mentee application'
+  ) THEN
+    CREATE POLICY "Users can update own mentee application"
+      ON mentee_applications FOR UPDATE
+      USING (auth.uid() = user_id);
+  END IF;
+END $$;
 
 -- Create updated_at trigger
 CREATE TRIGGER update_mentee_applications_updated_at

@@ -19,24 +19,60 @@ CREATE TABLE IF NOT EXISTS events (
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 
 -- Everyone can view events
-CREATE POLICY "Anyone can view events"
-  ON events FOR SELECT
-  USING (true);
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'events' 
+    AND policyname = 'Anyone can view events'
+  ) THEN
+    CREATE POLICY "Anyone can view events"
+      ON events FOR SELECT
+      USING (true);
+  END IF;
+END $$;
 
 -- Only authenticated users can create events (admins in future)
-CREATE POLICY "Authenticated users can create events"
-  ON events FOR INSERT
-  WITH CHECK (auth.role() = 'authenticated');
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'events' 
+    AND policyname = 'Authenticated users can create events'
+  ) THEN
+    CREATE POLICY "Authenticated users can create events"
+      ON events FOR INSERT
+      WITH CHECK (auth.role() = 'authenticated');
+  END IF;
+END $$;
 
 -- Only event creators or admins can update events
-CREATE POLICY "Event creators can update events"
-  ON events FOR UPDATE
-  USING (auth.uid() = created_by);
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'events' 
+    AND policyname = 'Event creators can update events'
+  ) THEN
+    CREATE POLICY "Event creators can update events"
+      ON events FOR UPDATE
+      USING (auth.uid() = created_by);
+  END IF;
+END $$;
 
 -- Only event creators or admins can delete events
-CREATE POLICY "Event creators can delete events"
-  ON events FOR DELETE
-  USING (auth.uid() = created_by);
+DO $$ 
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies 
+    WHERE tablename = 'events' 
+    AND policyname = 'Event creators can delete events'
+  ) THEN
+    CREATE POLICY "Event creators can delete events"
+      ON events FOR DELETE
+      USING (auth.uid() = created_by);
+  END IF;
+END $$;
 
 -- Create updated_at trigger
 CREATE TRIGGER update_events_updated_at
