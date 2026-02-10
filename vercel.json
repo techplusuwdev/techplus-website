@@ -2,5 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npx turbo run build --filter=@apps/portal",
   "installCommand": "pnpm install --no-frozen-lockfile",
-  "outputDirectory": "apps/portal/.next"
+  "outputDirectory": "apps/portal/.next",
+  "framework": "nextjs",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./apps/portal"
 }

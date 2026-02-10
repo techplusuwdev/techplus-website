@@ -36,11 +36,16 @@ The project is configured for Vercel deployment with the following settings:
 In your Vercel project dashboard, ensure these settings:
 
 ### General Settings
+
+**CRITICAL**: Make sure these are set correctly in Vercel dashboard:
+
 - **Framework Preset**: Next.js
-- **Root Directory**: `.` (leave empty or set to root)
-- **Build Command**: `npx turbo run build --filter=@apps/portal` (or leave empty to use vercel.json)
-- **Output Directory**: `apps/portal/.next` (or leave empty to use vercel.json)
-- **Install Command**: `pnpm install --no-frozen-lockfile` (or leave empty to use vercel.json)
+- **Root Directory**: **LEAVE EMPTY** or set to `.` (DO NOT set to `apps/portal`)
+- **Build Command**: Leave empty (uses vercel.json)
+- **Output Directory**: Leave empty (uses vercel.json)
+- **Install Command**: Leave empty (uses vercel.json)
+
+**Why this matters**: If you set Root Directory to `apps/portal`, Vercel will look for the output at `apps/portal/apps/portal/.next` (duplicated path), which causes the "output directory not found" error.
 
 ### Environment Variables
 Add these to your Vercel project:
@@ -70,14 +75,23 @@ This tells Turborepo to cache the `.next` directory (excluding cache folder) for
 
 ## Troubleshooting
 
-### Error: Output directory not found
+### Error: Output directory not found at `/vercel/path0/apps/portal/apps/portal/.next`
 
-**Problem**: `apps/portal/apps/portal/.next` instead of `apps/portal/.next`
+**Problem**: Path is duplicated - looking in `apps/portal/apps/portal/.next` instead of `apps/portal/.next`
+
+**Root Cause**: The **Root Directory** setting in Vercel dashboard is set to `apps/portal`, causing Vercel to look for the output directory relative to that path.
 
 **Solution**:
-1. Make sure **Root Directory** in Vercel is empty or set to `.`
-2. Verify `vercel.json` has correct `outputDirectory: "apps/portal/.next"`
-3. Build command should be `pnpm build:web` not `cd apps/portal && pnpm build`
+1. Go to your Vercel project → **Settings** → **General**
+2. Find **Root Directory** setting
+3. **CLEAR IT COMPLETELY** or set it to `.` (just a dot)
+4. Click **Save**
+5. Redeploy
+
+**Verification**:
+- Root Directory: ` ` (empty) or `.`
+- Output Directory: Leave empty (will use `apps/portal/.next` from vercel.json)
+- Build Command: Leave empty (will use vercel.json)
 
 ### Error: Frozen lockfile
 
