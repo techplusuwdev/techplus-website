@@ -1,4 +1,4 @@
-import { adminRepository, AdminStats, UserSearchResult } from '../repositories/adminRepository';
+import { adminRepository } from '../repositories/adminRepository';
 import type { UserRole } from '../repositories/authRepository';
 
 class AdminService {

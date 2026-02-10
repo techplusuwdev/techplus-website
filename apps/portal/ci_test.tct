@@ -1,0 +1,272 @@
+jhome@Jerrys-Mac-mini techplus-website % ./.github/test-ci-locally.sh
+🧪 Testing CI Checks Locally
+=============================
+
+📦 Step 1: Installing dependencies...
+Scope: all 2 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+Done in 481ms
+✅ Dependencies installed in 0s
+
+🔍 Step 2: Running lint check...
+
+> portal-monorepo@ lint:web /Users/jhome/Documents/GitHub/techplus-website
+> turbo run lint --filter=@apps/portal
+
+• turbo 2.7.5
+• Packages in scope: @apps/portal
+• Running lint in 1 packages
+• Remote caching disabled
+@apps/portal:lint: cache hit (outputs already on disk), replaying logs 17962fb4cb2116c1
+@apps/portal:lint: 
+@apps/portal:lint: > @apps/portal@0.1.0 lint /Users/jhome/Documents/GitHub/techplus-website/apps/portal
+@apps/portal:lint: > eslint app components lib --max-warnings 100 || true
+@apps/portal:lint: 
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/admin/page.tsx
+@apps/portal:lint:   30:5  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:   33:7  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:   39:7  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:   44:5  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/admin/applications/[id]/route.ts
+@apps/portal:lint:   41:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/admin/applications/route.ts
+@apps/portal:lint:    5:27  warning  'request' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   35:12  warning  'error' is defined but never used                                          @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/applications/mentee/route.ts
+@apps/portal:lint:   33:12  warning  'error' is defined but never used                                          @typescript-eslint/no-unused-vars
+@apps/portal:lint:   41:27  warning  'request' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   63:12  warning  'error' is defined but never used                                          @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/applications/mentor/route.ts
+@apps/portal:lint:   33:12  warning  'error' is defined but never used                                          @typescript-eslint/no-unused-vars
+@apps/portal:lint:   41:27  warning  'request' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   63:12  warning  'error' is defined but never used                                          @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/auth/signin/route.ts
+@apps/portal:lint:   26:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/auth/signout/route.ts
+@apps/portal:lint:    4:28  warning  'request' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   16:12  warning  'error' is defined but never used                                          @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/auth/signup/route.ts
+@apps/portal:lint:   31:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/api/events/route.ts
+@apps/portal:lint:    4:27  warning  'request' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   16:12  warning  'error' is defined but never used                                          @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/calendar/page.tsx
+@apps/portal:lint:   38:62  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/mentee-signup/page.tsx
+@apps/portal:lint:    4:10  warning  'TextField' is defined but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+@apps/portal:lint:    4:21  warning  'Button' is defined but never used. Allowed unused vars must match /^_/u            @typescript-eslint/no-unused-vars
+@apps/portal:lint:    5:8   warning  'ArrowForward' is defined but never used. Allowed unused vars must match /^_/u      @typescript-eslint/no-unused-vars
+@apps/portal:lint:   38:10  warning  'loading' is assigned a value but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/mentee-signup/page1.tsx
+@apps/portal:lint:   64:3  warning  'commitment' is defined but never used. Allowed unused args must match /^_/u       @typescript-eslint/no-unused-vars
+@apps/portal:lint:   65:3  warning  'setCommitment' is defined but never used. Allowed unused args must match /^_/u    @typescript-eslint/no-unused-vars
+@apps/portal:lint:   74:3  warning  'menteesCount' is defined but never used. Allowed unused args must match /^_/u     @typescript-eslint/no-unused-vars
+@apps/portal:lint:   75:3  warning  'setMenteesCount' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   78:3  warning  'isReturning' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+@apps/portal:lint:   79:3  warning  'setIsReturning' is defined but never used. Allowed unused args must match /^_/u   @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/mentee-signup/page4.tsx
+@apps/portal:lint:   13:3  warning  'profilePicture' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/mentor-signup/page.tsx
+@apps/portal:lint:    4:10  warning  'TextField' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+@apps/portal:lint:    4:21  warning  'Button' is defined but never used. Allowed unused vars must match /^_/u             @typescript-eslint/no-unused-vars
+@apps/portal:lint:    5:8   warning  'ArrowForward' is defined but never used. Allowed unused vars must match /^_/u       @typescript-eslint/no-unused-vars
+@apps/portal:lint:   11:8   warning  'FormField' is defined but never used. Allowed unused vars must match /^_/u          @typescript-eslint/no-unused-vars
+@apps/portal:lint:   12:8   warning  'FormCheckboxGroup' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   13:8   warning  'FormRadioGroup' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
+@apps/portal:lint:   14:8   warning  'FormSelect' is defined but never used. Allowed unused vars must match /^_/u         @typescript-eslint/no-unused-vars
+@apps/portal:lint:   45:10  warning  'loading' is assigned a value but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/app/mentor-signup/page4.tsx
+@apps/portal:lint:   13:3  warning  'profilePicture' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/components/organisms/landingPage/TeamDisplay/TeamDisplay.tsx
+@apps/portal:lint:   6:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/components/organisms/landingPage/about/Profile.tsx
+@apps/portal:lint:   3:8  warning  'React' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/components/organisms/landingPage/about/config.ts
+@apps/portal:lint:   2:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/components/organisms/landingPage/initiatives/PastEvents.tsx
+@apps/portal:lint:   30:45  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@apps/portal:lint:   34:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/components/organisms/landingPage/initiatives/ProgramCard.tsx
+@apps/portal:lint:   4:10  warning  'Button' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/components/organisms/navigation/Footer.tsx
+@apps/portal:lint:   15:34  warning  'trackingEventCategory' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/components/organisms/navigation/NavbarTabs.tsx
+@apps/portal:lint:   6:8  warning  'Button' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/lib/contexts/AuthContext.tsx
+@apps/portal:lint:    5:31  warning  'ProfileData' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+@apps/portal:lint:   93:21  warning  'session' is defined but never used. Allowed unused args must match /^_/u      @typescript-eslint/no-unused-vars
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/lib/repositories/authRepository.ts
+@apps/portal:lint:    56:7  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:    76:7  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:   114:9  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:   125:9  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:   142:7  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/lib/services/authService.ts
+@apps/portal:lint:    8:7  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint:   13:9  warning  Unexpected console statement. Only these console methods are allowed: warn, error  no-console
+@apps/portal:lint: 
+@apps/portal:lint: /Users/jhome/Documents/GitHub/techplus-website/apps/portal/lib/utils/formatting.ts
+@apps/portal:lint:   3:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@apps/portal:lint:   7:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+@apps/portal:lint: 
+@apps/portal:lint: ✖ 59 problems (0 errors, 59 warnings)
+@apps/portal:lint: 
+
+ Tasks:    1 successful, 1 total
+Cached:    1 cached, 1 total
+  Time:    62ms >>> FULL TURBO
+
+✅ Lint passed in 2s
+
+🔎 Step 3: Running type check...
+
+> portal-monorepo@ type-check:web /Users/jhome/Documents/GitHub/techplus-website
+> turbo run type-check --filter=@apps/portal
+
+• turbo 2.7.5
+• Packages in scope: @apps/portal
+• Running type-check in 1 packages
+• Remote caching disabled
+@apps/portal:type-check: cache hit (outputs already on disk), replaying logs 5a4d1ec9a6c1a904
+@apps/portal:type-check: 
+@apps/portal:type-check: > @apps/portal@0.1.0 type-check /Users/jhome/Documents/GitHub/techplus-website/apps/portal
+@apps/portal:type-check: > tsc --noEmit
+@apps/portal:type-check: 
+
+ Tasks:    1 successful, 1 total
+Cached:    1 cached, 1 total
+  Time:    59ms >>> FULL TURBO
+
+✅ Type check passed in 1s
+
+🏗️  Step 4: Running build test...
+
+> portal-monorepo@ build:web /Users/jhome/Documents/GitHub/techplus-website
+> turbo run build --filter=@apps/portal
+
+• turbo 2.7.5
+• Packages in scope: @apps/portal
+• Running build in 1 packages
+• Remote caching disabled
+@apps/portal:build: cache hit, replaying logs 9c5aa8dbfb5545db
+@apps/portal:build: 
+@apps/portal:build: > @apps/portal@0.1.0 build /Users/jhome/Documents/GitHub/techplus-website/apps/portal
+@apps/portal:build: > next build || true
+@apps/portal:build: 
+@apps/portal:build: ▲ Next.js 16.1.6 (Turbopack)
+@apps/portal:build: - Environments: .env
+@apps/portal:build: 
+@apps/portal:build:   Creating an optimized production build ...
+@apps/portal:build: ✓ Compiled successfully in 2.6s
+@apps/portal:build:   Running TypeScript ...
+@apps/portal:build:   Collecting page data using 9 workers ...
+@apps/portal:build:   Generating static pages using 9 workers (0/26) ...
+@apps/portal:build:   Generating static pages using 9 workers (6/26) 
+@apps/portal:build:   Generating static pages using 9 workers (12/26) 
+@apps/portal:build:   Generating static pages using 9 workers (19/26) 
+@apps/portal:build: ✓ Generating static pages using 9 workers (26/26) in 238.3ms
+@apps/portal:build:   Finalizing page optimization ...
+@apps/portal:build: 
+@apps/portal:build: Route (app)
+@apps/portal:build: ┌ ○ /
+@apps/portal:build: ├ ○ /_not-found
+@apps/portal:build: ├ ○ /admin
+@apps/portal:build: ├ ƒ /api/admin/applications
+@apps/portal:build: ├ ƒ /api/admin/applications/[id]
+@apps/portal:build: ├ ƒ /api/applications/mentee
+@apps/portal:build: ├ ƒ /api/applications/mentor
+@apps/portal:build: ├ ƒ /api/auth/signin
+@apps/portal:build: ├ ƒ /api/auth/signout
+@apps/portal:build: ├ ƒ /api/auth/signup
+@apps/portal:build: ├ ƒ /api/events
+@apps/portal:build: ├ ○ /calendar
+@apps/portal:build: ├ ○ /impact
+@apps/portal:build: ├ ○ /initiatives
+@apps/portal:build: ├ ○ /login
+@apps/portal:build: ├ ○ /login/check-email
+@apps/portal:build: ├ ○ /login/password-updated
+@apps/portal:build: ├ ○ /mentee-signup
+@apps/portal:build: ├ ○ /mentor-signup
+@apps/portal:build: ├ ○ /mentors
+@apps/portal:build: ├ ○ /profile
+@apps/portal:build: ├ ○ /reset-password
+@apps/portal:build: ├ ○ /resources
+@apps/portal:build: ├ ○ /signup
+@apps/portal:build: ├ ○ /signup/success
+@apps/portal:build: └ ○ /team
+@apps/portal:build: 
+@apps/portal:build: 
+@apps/portal:build: ƒ Proxy (Middleware)
+@apps/portal:build: 
+@apps/portal:build: ○  (Static)   prerendered as static content
+@apps/portal:build: ƒ  (Dynamic)  server-rendered on demand
+@apps/portal:build: 
+
+ Tasks:    1 successful, 1 total
+Cached:    1 cached, 1 total
+  Time:    583ms >>> FULL TURBO
+
+✅ Build passed in 2s
+   Build output size: 210M
+
+🚀 Step 5: Testing dev server...
+   Killing any existing process on port 3000...
+   Starting dev server (will run for 10 seconds)...
+
+> portal-monorepo@ dev:web /Users/jhome/Documents/GitHub/techplus-website
+> turbo run dev:web --filter=@apps/portal --parallel
+
+• turbo 2.7.5
+• Packages in scope: @apps/portal
+• Running dev:web in 1 packages
+• Remote caching disabled
+@apps/portal:dev:web: cache bypass, force executing 3074c0eac21df24a
+@apps/portal:dev:web: 
+@apps/portal:dev:web: > @apps/portal@0.1.0 dev:web /Users/jhome/Documents/GitHub/techplus-website/apps/portal
+@apps/portal:dev:web: > next dev
+@apps/portal:dev:web: 
+@apps/portal:dev:web: ▲ Next.js 16.1.6 (Turbopack)
+@apps/portal:dev:web: - Local:         http://localhost:3000
+@apps/portal:dev:web: - Network:       http://10.0.0.184:3000
+@apps/portal:dev:web: - Environments: .env
+@apps/portal:dev:web: 
+@apps/portal:dev:web: ✓ Starting...
+@apps/portal:dev:web: ✓ Ready in 911ms
+✅ Dev server is running successfully
+
+=============================
+📊 CI Test Summary
+=============================
+Lint:       ✅
+TypeCheck:  ✅
+Build:      ✅
+Dev Server: ✅ (REQUIRED)
+
+✅ All required checks passed!
+jhome@Jerrys-Mac-mini techplus-website %  
