@@ -1,6 +1,7 @@
 {
-    "buildCommand": "pnpm build",
-    "outputDirectory": "apps/portal/.next",
-    "installCommand": "pnpm install",
-    "framework": "nextjs"
-  }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npx turbo run build --filter=@apps/portal",
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "outputDirectory": "apps/portal/.next",
+  "framework": "nextjs"
+}
