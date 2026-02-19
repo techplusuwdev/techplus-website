@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 interface Step4Props {
   profilePicture: File | null;
   setProfilePicture: (file: File | null) => void;
+  loading?: boolean;
   onBack: () => void;
   onSkip: () => void;
 }
@@ -12,6 +13,7 @@ interface Step4Props {
 export default function Step4({
   profilePicture,
   setProfilePicture,
+  loading = false,
   onBack,
   onSkip,
 }: Step4Props) {
@@ -104,12 +106,13 @@ export default function Step4({
         </button>
       </div>
 
-      {/* Submit button (only shown if picture uploaded) */}
+      {/* Submit button */}
       <button
         type="submit"
-        className="w-full mt-4 px-6 py-3 bg-[#6B8E6B] hover:bg-[#5a7559] text-white font-bold rounded"
+        disabled={loading}
+        className="w-full mt-4 px-6 py-3 bg-[#6B8E6B] hover:bg-[#5a7559] text-white font-bold rounded disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        Submit Application
+        {loading ? 'Submitting...' : 'Submit Application'}
       </button>
       
     </div>
