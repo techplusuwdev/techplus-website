@@ -62,7 +62,7 @@ export default function MenteeSignupPage() {
       if (d.firstName !== undefined) setFirstName(d.firstName);
       if (d.lastName !== undefined) setLastName(d.lastName);
       if (d.email !== undefined) setEmail(d.email);
-      if (d.pronouns !== undefined) setPronouns(d.pronouns);
+      if (Array.isArray(d.pronouns)) setPronouns(d.pronouns);
       if (d.studyTerm !== undefined) setStudyTerm(d.studyTerm);
       if (d.academicProgram !== undefined) setAcademicProgram(d.academicProgram);
       if (d.howDidYouHear !== undefined) setHowDidYouHear(d.howDidYouHear);
@@ -75,7 +75,7 @@ export default function MenteeSignupPage() {
       if (d.mentorshipGoals !== undefined) setMentorshipGoals(d.mentorshipGoals);
       if (d.deiAgreement !== undefined) setDeiAgreement(d.deiAgreement);
       if (d.portfolioLink !== undefined) setPortfolioLink(d.portfolioLink);
-      if (d.contactMethods !== undefined) setContactMethods(d.contactMethods);
+      if (Array.isArray(d.contactMethods)) setContactMethods(d.contactMethods);
       if (d.askMeAbout !== undefined) setAskMeAbout(d.askMeAbout);
       if (d.freetimeInterests !== undefined) setFreetimeInterests(d.freetimeInterests);
       if (d.currentStep !== undefined) setCurrentStep(d.currentStep);
