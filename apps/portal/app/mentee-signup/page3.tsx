@@ -9,7 +9,7 @@ interface Step3Props {
   setAskMeAbout: (value: string) => void;
   freetimeInterests: string;
   setFreetimeInterests: (value: string) => void;
-  onNext: () => void;
+  loading?: boolean;
   onBack: () => void;
 }
 
@@ -20,7 +20,7 @@ export default function Page3({
   setAskMeAbout,
   freetimeInterests,
   setFreetimeInterests,
-  onNext,
+  loading = false,
   onBack,
 }: Step3Props) {
   return (
@@ -66,11 +66,11 @@ export default function Page3({
           Back
         </button>
         <button
-          type="button"
-          onClick={onNext}
-          className="px-6 py-3 bg-[#76a36d] hover:bg-[#6a9462] text-white font-medium rounded"
+          type="submit"
+          disabled={loading}
+          className="px-6 py-3 bg-[#76a36d] hover:bg-[#6a9462] text-white font-medium rounded disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Next
+          {loading ? 'Submitting...' : 'Submit Application'}
         </button>
       </div>
     </div>

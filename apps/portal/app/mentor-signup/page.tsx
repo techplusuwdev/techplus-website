@@ -7,11 +7,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { applicationService } from '@/lib/services/applicationService';
 import { useAuth } from '@/lib/contexts/AuthContext';
-import { supabase } from '@/lib/supabase/client';
 import Page1 from './page1';
 import Page2 from './page2';
 import Page3 from './page3';
-import Step4 from './page4';
 
 const DRAFT_KEY = (userId: string) => `mentor-draft-${userId}`;
 
@@ -45,9 +43,6 @@ export default function MentorSignupPage() {
   const [contactMethods, setContactMethods] = useState<string[]>([]);
   const [askMeAbout, setAskMeAbout] = useState('');
   const [freetimeInterests, setFreetimeInterests] = useState('');
-
-  // Page 4 — profile picture
-  const [profilePicture, setProfilePicture] = useState<File | null>(null);
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -137,21 +132,6 @@ export default function MentorSignupPage() {
     );
   }
 
-  // ── Upload profile picture to Supabase Storage ─────────────────────────────
-  const uploadProfilePicture = async (): Promise<string | null> => {
-    if (!profilePicture) return null;
-    const ext = profilePicture.name.split('.').pop();
-    const path = `${userId}/profile.${ext}`;
-    const { error: uploadError } = await supabase.storage
-      .from('profile-pictures')
-      .upload(path, profilePicture, { upsert: true });
-    if (uploadError) {
-      throw new Error(`Photo upload failed: ${uploadError.message}`);
-    }
-    const { data } = supabase.storage.from('profile-pictures').getPublicUrl(path);
-    return data.publicUrl;
-  };
-
   // ── Form submit ────────────────────────────────────────────────────────────
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,8 +139,6 @@ export default function MentorSignupPage() {
     setLoading(true);
 
     try {
-      const profilePictureUrl = await uploadProfilePicture();
-
       const result = await applicationService.submitMentorApplication({
         user_id: userId,
         profile_id: userId,
@@ -189,8 +167,6 @@ export default function MentorSignupPage() {
         contact_methods: contactMethods,
         ask_me_about: askMeAbout,
         freetime_interests: freetimeInterests,
-        // Page 4
-        ...(profilePictureUrl ? { profile_picture_url: profilePictureUrl } : {}),
       });
 
       if (result.success) {
@@ -209,14 +185,6 @@ export default function MentorSignupPage() {
 
   const handleNext = () => setCurrentStep((s) => s + 1);
   const handleBack = () => setCurrentStep((s) => s - 1);
-
-  const handleSkip = () => {
-    setProfilePicture(null);
-    if (window.confirm('Submit application without profile picture?')) {
-      const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
-      handleSubmit(fakeEvent);
-    }
-  };
 
   return (
     <div className="min-h-screen py-20 pb-60 px-4 overflow-hidden" style={{ backgroundColor: '#ffffff' }}>
@@ -286,15 +254,7 @@ export default function MentorSignupPage() {
                 contactMethods={contactMethods} setContactMethods={setContactMethods}
                 askMeAbout={askMeAbout} setAskMeAbout={setAskMeAbout}
                 freetimeInterests={freetimeInterests} setFreetimeInterests={setFreetimeInterests}
-                onNext={handleNext} onBack={handleBack}
-              />
-            )}
-
-            {currentStep === 4 && (
-              <Step4
-                profilePicture={profilePicture} setProfilePicture={setProfilePicture}
-                loading={loading}
-                onBack={handleBack} onSkip={handleSkip}
+                loading={loading} onBack={handleBack}
               />
             )}
           </form>
