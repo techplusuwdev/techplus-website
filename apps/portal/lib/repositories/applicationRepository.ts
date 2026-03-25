@@ -1,21 +1,17 @@
 import { supabase } from '../supabase/client';
 
 export interface MentorApplicationData {
-  // Required fields
-  // NEW: Basic info fields
+  user_id: string;
+  profile_id: string;
+
+  // Page 1 — basic info
   first_name?: string;
   last_name?: string;
   email?: string;
-  
-  // NEW: Pronouns (array)
   pronouns?: string[];
-  
-  // NEW: Dropdown fields
   study_term?: string;
   academic_program?: string;
   how_did_you_hear?: string;
-  
-  // NEW: Radio button fields
   commitment?: string;
   interested_in_events?: string;
   timezone?: string;
@@ -25,8 +21,21 @@ export interface MentorApplicationData {
   was_mentee?: string;
   is_returning?: string;
 
-  user_id: string;
-  profile_id: string;
+  // Page 2 — optional diversity info
+  race_ethnic_origin?: string;
+  gender?: string;
+  sexual_orientation?: string;
+  is_indigenous?: string;
+
+  // Page 3 — profile / interests
+  contact_methods?: string[];
+  ask_me_about?: string;
+  freetime_interests?: string;
+
+  // Page 4 — profile picture
+  profile_picture_url?: string;
+
+  // Legacy fields (kept for schema compatibility)
   program?: string;
   year_of_study?: number;
   company?: string;
@@ -41,6 +50,8 @@ export interface MentorApplicationData {
 export interface MenteeApplicationData {
   user_id: string;
   profile_id: string;
+
+  // Page 1 — basic info
   first_name?: string;
   last_name?: string;
   email?: string;
@@ -53,9 +64,22 @@ export interface MenteeApplicationData {
   timezone?: string;
   in_waterloo?: string;
   is_international?: string;
-  mentees_count?: string;
-  was_mentee?: string;
   is_returning?: string;
+
+  // Page 2 — mentee-specific
+  mentorship_goals?: string;
+  dei_agreement?: string;
+  portfolio_link?: string;
+
+  // Page 3 — profile / interests
+  contact_methods?: string[];
+  ask_me_about?: string;
+  freetime_interests?: string;
+
+  // Page 4 — profile picture
+  profile_picture_url?: string;
+
+  // Legacy fields (kept for schema compatibility)
   program?: string;
   year_of_study?: number;
   career_goals?: string;

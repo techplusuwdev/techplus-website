@@ -7,11 +7,9 @@ import {
 class ApplicationService {
   async submitMentorApplication(data: MentorApplicationData) {
     try {
-      // Update user role to mentor
-      await applicationRepository.updateProfileRole(data.user_id, 'mentor');
-      
-      // Create application
+      // Create application first so we don't update profile role if insert fails
       const result = await applicationRepository.createMentorApplication(data);
+      await applicationRepository.updateProfileRole(data.user_id, 'mentor');
       return { success: true, data: result };
     } catch (error) {
       return {
@@ -23,11 +21,9 @@ class ApplicationService {
 
   async submitMenteeApplication(data: MenteeApplicationData) {
     try {
-      // Update user role to mentee
-      await applicationRepository.updateProfileRole(data.user_id, 'mentee');
-      
-      // Create application
+      // Create application first so we don't update profile role if insert fails
       const result = await applicationRepository.createMenteeApplication(data);
+      await applicationRepository.updateProfileRole(data.user_id, 'mentee');
       return { success: true, data: result };
     } catch (error) {
       return {
