@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(git pull:*)",
+      "Bash(find /c/Users/anand/techplus-website/apps/portal -name *.tsx -path *hooks* -o -name *Hook*)"
+    ]
+  }
+}
