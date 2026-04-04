@@ -3,9 +3,10 @@
 import React from 'react';
 import Image from 'next/image';
 import TeamDisplay from '@/components/organisms/landingPage/TeamDisplay/TeamDisplay';
-import { techPlusTeamMembers } from '@/components/organisms/landingPage/about/config';
+import { useMembers } from '@/lib/hooks/useMembers';
 
 export default function TeamPage() {
+  const { members, isLoading, error } = useMembers();
   const leftLeafPath = "/assets/images/left-leaf-portal.svg";
   const rightLeafPath = "/assets/images/right-leaf-portal.svg";
 
@@ -58,9 +59,7 @@ export default function TeamPage() {
             We are a dedicated group of students who work toward the common goal of
             building the tech community at UW for you
           </p>
-          <div className="grid grid-cols-1 gap-2">
-            <TeamDisplay league={techPlusTeamMembers} />
-          </div>
+          <TeamDisplay members={members} isLoading={isLoading} error={error} />
         </div>
       </div>
     </div>
